@@ -26,7 +26,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(cors(
     {
-    origin: "http://localhost:3001", // frontend URL
+    origin: "https://lost-and-found-app-frontend.vercel.app", // frontend URL
     credentials: true, // allow cookies
   }
 ));
@@ -41,7 +41,9 @@ app.use("/api/post", postRoutes);
 
 // Error handling
 
-
+app.use('/',(req,res)=>{
+  res.send("Its My Lost and Found App Backend");
+});
 
 const PORT = process.env.PORT || 9000;
 app.listen(PORT, () => {
