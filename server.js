@@ -31,7 +31,7 @@ app.use(cookieParser());
 app.use(
   cors({
     origin: [
-      "http://localhost:3001", // local frontend (optional but good)
+      // "http://localhost:3002", // local frontend (optional but good)
       "https://lost-and-found-app-frontend.vercel.app", // deployed frontend
     ],
     credentials: true,
