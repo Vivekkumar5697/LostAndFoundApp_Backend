@@ -11,40 +11,48 @@ import contactRoute from "./routes/contact.js";
 import path from "path";
 import { fileURLToPath } from "url";
 
-// These two lines emulate __dirname in ES modules
+// Setup __dirname in ES Module
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-
 
 dotenv.config();
 connectDB();
 
 const app = express();
 
+// Static files for images
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
-app.use(express.json()); 
-app.use(cookieParser());
-app.use(cors(
-    {
-    origin: "https://lost-and-found-app-frontend.vercel.app", // frontend URL
-    credentials: true, // allow cookies
-  }
-));
-app.use(errorHandler);
+
+// Middlewares
+app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
+
+app.use(
+  cors({
+    origin: [
+      "http://localhost:3001", // local frontend (optional but good)
+      "https://lost-and-found-app-frontend.vercel.app", // deployed frontend
+    ],
+    credentials: true,
+  })
+);
+
 // Routes
 app.use("/api/contact", contactRoute);
 app.use("/api/auth", authRoutes);
-
 app.use("/api/user", userRoutes);
 app.use("/api/post", postRoutes);
 
-// Error handling
-
-app.use('/',(req,res)=>{
-  res.send("Its My Lost and Found App Backend");
+// Default route
+app.get("/", (req, res) => {
+  res.send("✅ Lost and Found App Backend is running!");
 });
 
+// ❗ Error handler should be LAST
+app.use(errorHandler);
+
+// Start server
 const PORT = process.env.PORT || 9000;
 app.listen(PORT, () => {
   console.log(`✅ Server is running on http://localhost:${PORT}`);
