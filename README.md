@@ -36,7 +36,7 @@ This is the **backend** for the Lost and Found web application, built using **No
 
 ## 📁 Folder Structure
 
-```
+```plaintext
 
 backend/
 ├── controllers/       # Route logic
